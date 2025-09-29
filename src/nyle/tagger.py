@@ -3,13 +3,14 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
+    from collections.abc import Callable
+    from types import FunctionType
     from types import ModuleType
-    from typing import Callable
     from typing import TypeVar
 
     from _typeshed import Incomplete
 
-    T = TypeVar("T")
+    T = TypeVar("T", type, FunctionType)
 
 
 def add_metadata(
