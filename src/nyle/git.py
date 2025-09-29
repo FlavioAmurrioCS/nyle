@@ -167,14 +167,14 @@ class Git:
         return None
 
     def url_file(self, file: str) -> str:
-        file = os.path.abspath(file).removeprefix(self.home).rstrip("/")
+        file = os.path.abspath(file).removeprefix(self.home).strip("/")
         return f"{self.url_project()}/blob/{self.branch_current()}/{file}"
 
 
 if __name__ == "__main__":
     url = "git@github.com:FlavioAmurrioCS/uv-to-pipfile.git"
-    g = git_clone(url)
-    # g = Git.from_dir(".")
+    # g = git_clone(url)
+    g = Git.from_dir(".")
     print(f"{g.ls_files()=}")
     print(f"{g.branch_default()=}")
     print(f"{g.branch_current()=}")
