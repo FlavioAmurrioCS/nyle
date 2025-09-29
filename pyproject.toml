@@ -7,7 +7,7 @@ name = "nyle"
 dynamic = ["version"]
 description = "Work on any project!"
 readme = "README.md"
-requires-python = ">=3.9"
+requires-python = ">=3.10"
 license = "MIT"
 keywords = []
 authors = [
@@ -16,7 +16,6 @@ authors = [
 classifiers = [
   "Development Status :: 4 - Beta",
   "Programming Language :: Python",
-  "Programming Language :: Python :: 3.9",
   "Programming Language :: Python :: 3.10",
   "Programming Language :: Python :: 3.11",
   "Programming Language :: Python :: 3.12",
@@ -26,8 +25,8 @@ classifiers = [
   "Programming Language :: Python :: Implementation :: PyPy",
 ]
 dependencies = [
-  "typedfzf",
   "fzf-bin",
+  "typedfzf",
   "typer-slim",
 ]
 
@@ -78,7 +77,6 @@ check = "mypy --install-types --non-interactive {args:src/nyle tests}"
 
 [[tool.hatch.envs.hatch-test.matrix]]
 python = [
-  "3.9",
   "3.10",
   "3.11",
   "3.12",
@@ -126,7 +124,7 @@ exclude_lines = [
 # region: pyright
 ###############################################################################
 [tool.pyright]
-pythonVersion = "3.9"
+pythonVersion = "3.10"
 ###############################################################################
 # endregion: pyright
 ###############################################################################
@@ -135,7 +133,7 @@ pythonVersion = "3.9"
 # region: mypy
 ###############################################################################
 [tool.mypy]
-python_version = "3.9"
+python_version = "3.10"
 check_untyped_defs = true
 disallow_any_generics = true
 disallow_incomplete_defs = true

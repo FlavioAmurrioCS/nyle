@@ -8,12 +8,12 @@ from functools import cached_property
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
+    from collections.abc import Generator
     from collections.abc import Mapping
 
-    from collectiosn.abc import Generator
     from typing_extensions import Self
 
-PROJECT_PREFIX = os.path.expanduser("~/")
+PROJECT_PREFIX = os.path.expanduser("~/dev")
 
 
 def find_dir_up(start: str, target: str) -> str | None:
@@ -28,7 +28,9 @@ def find_dir_up(start: str, target: str) -> str | None:
     return None
 
 
-def git_find_projects(start: str, depth: int = 4) -> Generator[str]:
+def git_find_projects(
+    start: str = PROJECT_PREFIX, depth: int = 4
+) -> Generator[str]:
     if depth <= 0:
         return
     if os.path.exists(os.path.join(start, ".git")):
@@ -71,7 +73,7 @@ def git_clone(
             repository,
             directory,
         )
-        subprocess.run(cmd, check=True)
+        subprocess.run(cmd, check=True)  # noqa: S603
     return Git.from_dir(directory)
 
 
@@ -83,10 +85,11 @@ class Git:
         self._command_prefix = ("git", "-C", self.home)
 
     @classmethod
-    def from_dir(cls, d: str) -> Self | None:
+    def from_dir(cls, d: str) -> Self:
         result = find_dir_up(d, ".git")
         if not result:
-            return None
+            msg = f"Not a git project: {d}"
+            raise FileNotFoundError(msg)
         return cls(home=result)
 
     def ls_files(self, *args: str) -> list[str]:
@@ -172,13 +175,14 @@ class Git:
 
 
 if __name__ == "__main__":
-    url = "git@github.com:FlavioAmurrioCS/uv-to-pipfile.git"
-    # g = git_clone(url)
-    g = Git.from_dir(".")
+    # url = "git@github.com:FlavioAmurrioCS/uv-to-pipfile.git"
+    url = "git@github.com:FlavioAmurrioCS/nyle.git"
+    g = git_clone(url)
+    # g = Git.from_dir(".")
     print(f"{g.ls_files()=}")
     print(f"{g.branch_default()=}")
     print(f"{g.branch_current()=}")
-    print(f"{g._git_config=}")
+    print(f"{g._git_config=}")  # noqa: SLF001
     print(f"{g.branch_current_section()=}")
     print(f"{g.branch_current_has_been_pushed()=}")
     print(f"{g.repository()=}")

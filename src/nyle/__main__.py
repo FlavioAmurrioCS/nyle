@@ -1,12 +1,25 @@
 from __future__ import annotations
 
+from fzf import fzf
 
-def main(argv: list[str] | None = None) -> int:
-    import argparse
+from nyle.git import git_clone
+from nyle.git import git_find_projects
 
-    parser = argparse.ArgumentParser()
-    args = parser.parse_args(argv)
-    print(f"Arguments: {vars(args)=}")
+
+def select_project() -> None:
+    selected = fzf(git_find_projects())
+    if selected:
+        print(selected)
+
+
+def main(_argv: list[str] | None = None) -> int:
+    import typer
+
+    app = typer.Typer()
+    app.command(name="clone")(git_clone)
+    app.command()(select_project)
+
+    app()
     return 0
 
 

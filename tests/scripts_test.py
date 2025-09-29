@@ -27,7 +27,7 @@ def entrypoints() -> Generator[tuple[str, str], None, None]:
 @pytest.mark.parametrize("pair", entrypoints())
 def test_help(pair: tuple[str, str]) -> None:
     k, _v = pair
-    result = subprocess.run(
+    result = subprocess.run(  # noqa: S603
         [k, "--help"], check=False, capture_output=True, text=True
     )
     if result.returncode != 0:
